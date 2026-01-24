@@ -6,6 +6,36 @@
 import { GoogleGenAI, GenerateContentResponse, Modality, Type } from "@google/genai";
 import type { ResumeData } from '../types';
 
+// Define a daily request limit to prevent abuse and stay within free tier limits.
+const DAILY_REQUEST_LIMIT = 50;
+
+/**
+ * Checks if the user has exceeded the daily request limit.
+ * Throws an error if the limit is reached.
+ * Uses localStorage to track usage per user.
+ */
+export const checkRateLimit = () => {
+    const STORAGE_KEY_DATE = 'portfolio_ai_usage_date';
+    const STORAGE_KEY_COUNT = 'portfolio_ai_usage_count';
+
+    const today = new Date().toDateString();
+    const lastDate = localStorage.getItem(STORAGE_KEY_DATE);
+    let count = parseInt(localStorage.getItem(STORAGE_KEY_COUNT) || '0', 10);
+
+    // Reset counter if the date has changed.
+    if (lastDate !== today) {
+        count = 0;
+        localStorage.setItem(STORAGE_KEY_DATE, today);
+    }
+
+    if (count >= DAILY_REQUEST_LIMIT) {
+        throw new Error(`Daily demo limit reached (${DAILY_REQUEST_LIMIT} requests/day). Please come back tomorrow!`);
+    }
+
+    // Increment the counter.
+    localStorage.setItem(STORAGE_KEY_COUNT, (count + 1).toString());
+};
+
 /**
  * Initializes and returns a new AI client instance.
  * This is the main entry point for the AI API.
@@ -32,6 +62,7 @@ const getGenAI = () => {
  * @returns {Promise<GenerateContentResponse>} The model's response, which includes the text and any source citations.
  */
 export const getGroundedChatResponse = async (history: { role: string; parts: { text: string }[] }[], newMessage: string, useMaps: boolean, resumeData: ResumeData): Promise<GenerateContentResponse> => {
+    checkRateLimit();
     const ai = getGenAI();
 
     // System instruction to give the AI context about the user's portfolio.
@@ -44,14 +75,16 @@ Here is the resume data in JSON format: ${JSON.stringify(resumeData)}`;
     if (useMaps) {
         tools.push({ googleMaps: {} });
     }
+    
+    const config: any = {
+        systemInstruction,
+        tools,
+    };
 
     const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: [...history, { role: 'user', parts: [{ text: newMessage }] }],
-        config: {
-            systemInstruction,
-            tools,
-        },
+        config,
     });
 
     return response;
@@ -67,6 +100,7 @@ Here is the resume data in JSON format: ${JSON.stringify(resumeData)}`;
  * @returns {Promise<any>} The model's response, containing the generated image data.
  */
 export const generateImage = async (prompt: string, aspectRatio: "1:1" | "16:9" | "9:16" | "4:3" | "3:4"): Promise<any> => {
+    checkRateLimit();
     const ai = getGenAI();
     const response = await ai.models.generateImages({
         model: 'imagen-4.0-generate-001',
@@ -92,6 +126,7 @@ export const generateImage = async (prompt: string, aspectRatio: "1:1" | "16:9" 
  */
 export const generateVideo = async (prompt: string, aspectRatio: "16:9" | "9:16", imageBase64?: string, imageMimeType?: string): Promise<any> => {
     // Re-initializing to get the latest key, as per VideoGenerator requirements.
+    // Note: We do NOT rate limit video generation as it requires the user to select their own API key.
     const ai = getGenAI();
     const requestPayload: any = {
         model: 'veo-3.1-fast-generate-preview',
@@ -134,6 +169,7 @@ export const getVideosOperation = async (operation: any): Promise<any> => {
  * @returns {Promise<GenerateContentResponse>} The detailed solution from the model.
  */
 export const getComplexSolution = async (prompt: string): Promise<GenerateContentResponse> => {
+    checkRateLimit();
     const ai = getGenAI();
     const response = await ai.models.generateContent({
         model: 'gemini-2.5-pro',
@@ -156,6 +192,7 @@ export const getComplexSolution = async (prompt: string): Promise<GenerateConten
  * @returns {Promise<GenerateContentResponse>} The model's analysis.
  */
 export const analyzeImage = async (prompt: string, imageBase64: string, mimeType: string): Promise<GenerateContentResponse> => {
+    checkRateLimit();
     const ai = getGenAI();
     const imagePart = {
         inlineData: {
@@ -181,6 +218,7 @@ export const analyzeImage = async (prompt: string, imageBase64: string, mimeType
  * @returns {Promise<GenerateContentResponse>} The model's response, containing the edited image.
  */
 export const editImage = async (prompt: string, imageBase64: string, mimeType: string): Promise<GenerateContentResponse> => {
+    checkRateLimit();
     const ai = getGenAI();
     const imagePart = {
         inlineData: {
@@ -209,6 +247,7 @@ export const editImage = async (prompt: string, imageBase64: string, mimeType: s
  * @returns {Promise<GenerateContentResponse>} The rewritten text from the model.
  */
 export const humanizeText = async (text: string): Promise<GenerateContentResponse> => {
+    checkRateLimit();
     const ai = getGenAI();
     const systemInstruction = `You are an advanced AI text humanizer. Your task is to rewrite the provided text to make it sound as if it were written by a human.
 Focus on varying sentence structure, improving flow, eliminating AI hallmarks (like repetitive phrases and overly formal language), injecting personality, and enhancing word choice.
@@ -230,6 +269,7 @@ The output should ONLY be the rewritten text, with no preamble.`;
  * @returns {Promise<GenerateContentResponse>} A JSON response with classification, confidence, and reasoning.
  */
 export const detectAIText = async (text: string): Promise<GenerateContentResponse> => {
+    checkRateLimit();
     const ai = getGenAI();
     const systemInstruction = `You are an expert AI text classifier. Your task is to analyze the following text and determine if it was likely written by a human or an AI.
     Provide a classification and a confidence score. Consider factors like sentence structure variety, word choice, repetitiveness, and common AI linguistic patterns.
@@ -270,6 +310,7 @@ export const detectAIText = async (text: string): Promise<GenerateContentRespons
  * @returns {Promise<GenerateContentResponse>} The enhanced prompt from the model.
  */
 export const enhancePrompt = async (prompt: string): Promise<GenerateContentResponse> => {
+    checkRateLimit();
     const ai = getGenAI();
     const systemInstruction = `You are an expert prompt engineer for generative AI models. Your task is to take a user's simple prompt and expand it into a detailed, rich, and well-structured prompt that will produce a high-quality, creative, and specific output, particularly for image generation.
 Analyze the user's core idea and add details about subject, composition, style, medium, lighting, atmosphere, color palette, and technical details.

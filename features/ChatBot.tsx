@@ -77,9 +77,12 @@ const ChatBot: React.FC<ChatBotProps> = ({ resumeData, setActiveTab, onClose }) 
         // Construct a direct download link for the Google Drive file and trigger the download.
         let downloadUrl = resumeData.resumePdfUrl;
         try {
-            const urlParts = resumeData.resumePdfUrl.split('/d/');
-            if (urlParts.length > 1) {
-                const fileId = urlParts[1].split('/')[0];
+            // Robust parsing to support multiple Drive link formats
+            const matchView = resumeData.resumePdfUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            const matchId = resumeData.resumePdfUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            const fileId = matchView?.[1] || matchId?.[1];
+
+            if (fileId) {
                 downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
             }
         } catch(e) { console.error("Could not construct download URL", e); }
@@ -98,6 +101,12 @@ const ChatBot: React.FC<ChatBotProps> = ({ resumeData, setActiveTab, onClose }) 
         onClose();
     }
   };
+
+    // Toggles the use of Google Maps.
+    const handleToggleMaps = () => {
+        setUseMaps(prev => !prev);
+    };
+
 
   // Handles sending a message to the AI.
   const handleSend = async (messageText: string = input) => {
@@ -212,7 +221,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ resumeData, setActiveTab, onClose }) 
               disabled={isLoading}
             />
              <button
-              onClick={() => setUseMaps(!useMaps)}
+              onClick={handleToggleMaps}
               className={`p-2 rounded-md transition-colors ${useMaps ? 'bg-amber-600 dark:bg-amber-600 text-white' : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-400 dark:hover:bg-gray-600'}`}
               title="Toggle Google Maps Grounding"
             >

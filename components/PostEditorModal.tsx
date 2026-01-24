@@ -131,4 +131,52 @@ export const PostEditorModal: React.FC<PostEditorModalProps> = ({ isOpen, onClos
             onChange={(e) => setContent(e.target.value)}
             required
             rows={6}
-            className="
+            className="w-full bg-gray-200 dark:bg-gray-800 border-transparent rounded-md px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+            placeholder="Write your post content here. Markdown is supported..."
+          ></textarea>
+        </div>
+        
+        {/* Attachment Upload */}
+        <div>
+          <label className="block text-sm font-medium text-[var(--subtle-text)] mb-1">Attachments</label>
+          <input type="file" multiple onChange={handleFileChange} className="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
+          <div className="mt-2 flex flex-wrap gap-2">
+            {attachments.map((file, index) => (
+              <div key={index} className="flex items-center gap-2 bg-gray-500/10 p-1.5 rounded-full text-sm">
+                {file.type === 'image' ? <ImageIcon size={16} className="text-[var(--header-text)]" /> : <FileText size={16} className="text-[var(--header-text)]" />}
+                <span className="max-w-xs truncate text-[var(--subtle-text)]">{file.name}</span>
+                <button onClick={() => removeAttachment(index)} className="p-0.5 rounded-full hover:bg-red-500/10 text-red-500"><X size={14} /></button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Link Input */}
+        <div>
+            <label className="block text-sm font-medium text-[var(--subtle-text)] mb-1">Add a Link</label>
+            <div className="flex flex-col sm:flex-row gap-2">
+                <input type="text" value={currentLink.title} onChange={e => setCurrentLink(p => ({...p, title: e.target.value}))} placeholder="Link Title" className="flex-1 bg-gray-200 dark:bg-gray-800 rounded-md px-3 py-1.5 text-sm" />
+                <input type="url" value={currentLink.url} onChange={e => setCurrentLink(p => ({...p, url: e.target.value}))} placeholder="https://example.com" className="flex-1 bg-gray-200 dark:bg-gray-800 rounded-md px-3 py-1.5 text-sm" />
+                <button onClick={handleAddLink} className="sm:w-auto text-sm bg-gray-500/10 hover:bg-gray-500/20 px-4 py-1.5 rounded-md transition-colors">Add</button>
+            </div>
+            <div className="mt-2 space-y-1">
+                {links.map((link, index) => (
+                    <div key={index} className="flex items-center justify-between text-sm bg-gray-500/5 p-1.5 rounded">
+                        <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-amber-600 dark:text-amber-500 hover:underline truncate">{link.title}</a>
+                        <button onClick={() => handleRemoveLink(index)} className="p-0.5 rounded-full hover:bg-red-500/10 text-red-500 ml-2"><X size={14} /></button>
+                    </div>
+                ))}
+            </div>
+        </div>
+
+        {/* Save Button */}
+        <div className="flex justify-end pt-4 border-t border-[var(--border-color)]">
+          <button onClick={handleSave} disabled={isSaving || !content.trim()} className="flex items-center gap-2 bg-amber-600 text-white px-6 py-2 rounded-md hover:bg-amber-700 disabled:bg-amber-400 disabled:cursor-not-allowed">
+            {isSaving ? <Spinner /> : <Save size={20} />}
+            <span>{isSaving ? 'Saving...' : 'Save Post'}</span>
+          </button>
+        </div>
+      </div>
+    </Modal>
+  );
+};

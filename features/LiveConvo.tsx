@@ -5,6 +5,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { GoogleGenAI, LiveServerMessage, Modality, Blob } from "@google/genai";
 import { Mic, MicOff, Bot } from 'lucide-react';
+import { checkRateLimit } from '../services/geminiService';
 
 // --- Audio Encoding/Decoding Utilities ---
 
@@ -133,6 +134,15 @@ const LiveConvo: React.FC = () => {
    */
   const startConversation = async () => {
     if (isListening) return;
+
+    // Check limits before starting a resource-intensive session.
+    try {
+        checkRateLimit();
+    } catch (e: any) {
+        setStatus(e.message);
+        return;
+    }
+
     setIsListening(true);
     setStatus('Connecting...');
     setTranscripts([]);
@@ -249,9 +259,9 @@ const LiveConvo: React.FC = () => {
           },
         },
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to start conversation:', error);
-      setStatus('Failed to get microphone access.');
+      setStatus(`Error: ${error.message || 'Failed to access microphone'}`);
       setIsListening(false);
     }
   };

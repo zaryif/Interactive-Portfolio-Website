@@ -129,58 +129,63 @@ const Contact: React.FC<ContactProps> = ({ resumeData }) => {
             </div>
             
             {/* Right Column: Contains the contact form. */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-[var(--subtle-text)] mb-1">Name</label>
-                <input 
-                  type="text" 
-                  id="name" 
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required 
-                  className="w-full bg-gray-200 dark:bg-gray-800 border-transparent rounded-md px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-500" 
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-[var(--subtle-text)] mb-1">Email</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required 
-                  className="w-full bg-gray-200 dark:bg-gray-800 border-transparent rounded-md px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-500" 
-                />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-[var(--subtle-text)] mb-1">Message</label>
-                <textarea 
-                  id="message" 
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required 
-                  rows={5} 
-                  className="w-full bg-gray-200 dark:bg-gray-800 border-transparent rounded-md px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-500"
-                ></textarea>
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  disabled={status === 'sending'}
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 bg-amber-600 dark:bg-amber-600 text-white px-6 py-2 rounded-md hover:bg-amber-700 dark:hover:bg-amber-700 disabled:bg-amber-400 dark:disabled:bg-amber-800 disabled:cursor-not-allowed transition-colors"
-                >
-                  {status === 'sending' ? <Spinner /> : <Send size={20} />}
-                  <span>{status === 'sending' ? 'Sending...' : 'Send Message'}</span>
-                </button>
-              </div>
-              {/* Display an error message if the submission fails. */}
-              {status === 'error' && (
-                <p className="text-sm text-red-500 dark:text-red-400 mt-2">{errorMessage}</p>
-              )}
-            </form>
+            <div>
+              <p className="font-pixel text-xl text-center md:text-left text-[var(--header-text)] mb-4">
+                I prefer to be contacted via email, but this form works just as well.
+              </p>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-[var(--subtle-text)] mb-1">Name</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required 
+                    className="w-full bg-stone-200 dark:bg-stone-800 border-transparent rounded-md px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-500" 
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-[var(--subtle-text)] mb-1">Email</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required 
+                    className="w-full bg-stone-200 dark:bg-stone-800 border-transparent rounded-md px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-500" 
+                  />
+                </div>
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-[var(--subtle-text)] mb-1">Message</label>
+                  <textarea 
+                    id="message" 
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required 
+                    rows={5} 
+                    className="w-full bg-stone-200 dark:bg-stone-800 border-transparent rounded-md px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-500"
+                  ></textarea>
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    disabled={status === 'sending'}
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 bg-amber-600 dark:bg-amber-600 text-white px-6 py-2 rounded-md hover:bg-amber-700 dark:hover:bg-amber-700 disabled:bg-amber-400 dark:disabled:bg-amber-800 disabled:cursor-not-allowed transition-colors"
+                  >
+                    {status === 'sending' ? <Spinner /> : <Send size={20} />}
+                    <span>{status === 'sending' ? 'Sending...' : 'Send Message'}</span>
+                  </button>
+                </div>
+                {/* Display an error message if the submission fails. */}
+                {status === 'error' && (
+                  <p className="text-sm text-red-500 dark:text-red-400 mt-2">{errorMessage}</p>
+                )}
+              </form>
+            </div>
           </>
         )}
       </div>

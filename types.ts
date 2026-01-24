@@ -118,4 +118,4 @@ export interface GitHubRepo {
 
 // Defines the possible values for the main navigation tabs.
 // Using a union type provides type safety when setting the active tab.
-export type Tab = 'Resume' | 'Projects' | 'Timeline' | 'AI Playground' | 'Documentation' | 'Contact';
+export type Tab = 'Resume' | 'Projects' | 'Timeline' | 'AI Playground' | 'Contact';

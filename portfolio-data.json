@@ -1,0 +1,155 @@
+{
+  "name": "MD ZARIF AZFAR",
+  "profilePictureUrl": "https://i.imghippo.com/files/XYN8601So.jpg",
+  "resumePdfUrl": "https://drive.google.com/file/d/1td7EvjzAvT9ESMPR3FdPrDx_bW57cNhb/view?usp=drivesdk",
+  "contact": {
+    "location": "Dhaka, Bangladesh",
+    "phone": "+8801986073082",
+    "email": "zaryif.dev@gmail.com"
+  },
+  "summary": "Motivated and curious student with hands-on experience in technology, AI, and creative projects. Skilled in app development, event organization, and managing complex tasks with attention to detail. Active in community service, contributing to meaningful social impact. Committed to continuous learning, problem-solving, and turning ideas into practical outcomes.",
+  "education": [
+    {
+      "degree": "Bachelor of Science in Computer Network & Cybersecurity",
+      "institution": "American International University-Bangladesh",
+      "duration": "Feb 2025 - Present"
+    },
+    {
+      "degree": "Higher Secondary Certificate",
+      "institution": "Saint Joseph Higher Secondary School",
+      "duration": "Jan 2023 - Dec 2024",
+      "details": ["Group: Science", "GPA: 4.75/5.00"]
+    },
+    {
+      "degree": "Secondary School Certificate",
+      "institution": "Saint Joseph Higher Secondary School",
+      "duration": "Jan 2021 - Dec 2022",
+      "details": ["Group: Science", "GPA: 5.00/5.00"]
+    }
+  ],
+  "activities": [
+    {
+      "role": "Advisor",
+      "organization": "Josephite IT Club",
+      "duration": "Feb 2025 - Sep 2025",
+      "details": ["Mentored juniors to organize Technovation '25, the club's flagship national event."]
+    },
+    {
+      "role": "Organizer",
+      "organization": "Josephite IT Club",
+      "duration": "Feb 2024 - Dec 2024",
+      "details": ["Revived the Josephite IT Club & led the return of the Josephite Intra Tech Festival 2024 after a 7-year gap."]
+    },
+    {
+      "role": "Member & Volunteer",
+      "organization": "Bright Aid",
+      "duration": "Aug 2021 - Present",
+      "details": ["Volunteered in community work, animal welfare, and peaceful activities advocating against injustice."]
+    }
+  ],
+  "additionalInfo": {
+    "skills": ["Event Organizing & Management", "App Development", "Prompt Engineering", "Vibe Coding"],
+    "languages": ["English", "Bengali"],
+    "socialMedia": [
+      {
+        "platform": "Linkedin",
+        "handle": "@zaryif",
+        "url": "https://bd.linkedin.com/in/zaryif"
+      },
+      {
+        "platform": "Instagram",
+        "handle": "@Zaryif",
+        "url": "https://instagram.com/Zaryif"
+      },
+      {
+        "platform": "Facebook",
+        "handle": "@Zaryifazfar",
+        "url": "https://facebook.com/Zaryifazfar"
+      },
+      {
+        "platform": "Github",
+        "handle": "@zaryif",
+        "url": "https://github.com/zaryif"
+      },
+      {
+        "platform": "Gmail",
+        "handle": "zaryif.dev@gmail.com",
+        "url": "mailto:zaryif.dev@gmail.com"
+      }
+    ]
+  },
+  "projects": [
+    {
+      "id": 1,
+      "title": "Interactive-Portfolio-website",
+      "imageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "description": "Engineered an interactive portfolio platform featuring a custom AI chatbot with Google Maps grounding to transform static professional data into a dynamic, real-time conversational experience.",
+      "technologies": ["React", "TypeScript", "Tailwind CSS", "Generative AI"],
+      "links": {
+        "github": "https://github.com/zaryif/Interactive-Portfolio-website.git"
+      }
+    },
+    {
+      "id": 3,
+      "title": "ForensicSteganographySuite",
+      "imageUrl": "https://images.unsplash.com/photo-1563206767-5b1d972d9323?q=80&w=2070&auto=format&fit=crop",
+      "description": "Architected a forensic steganography suite across six languages utilizing AES-256-GCM and novel Full-Surface CSPRNG noise injection to render encrypted payloads mathematically indistinguishable from natural media entropy.",
+      "technologies": ["Python", "OpenCV", "Cryptography", "Digital Forensics", "Steganalysis"],
+      "links": {
+        "github": "https://github.com/zaryif/ForensicSteganographySuite.git"
+      }
+    }
+  ],
+  "blogPosts": [
+    {
+      "id": 5,
+      "title": "Unveiling Hidden Data: My New Forensic Tool",
+      "date": "2025-12-27T14:00:00Z",
+      "content": "I've just open-sourced a new tool I've been working on: the **Forensic Steganography Suite**. \n\nIt's designed to help in digital forensics by detecting hidden data within image files—a technique known as steganography. The tool uses statistical analysis to spot Least Significant Bit (LSB) embedding, which is a common way to hide messages in plain sight. \n\nI built this using Python and OpenCV to automate the detection process that is often manual and tedious. It's fully functional and available on my GitHub. I'm planning to add audio analysis features next!",
+      "attachments": [],
+      "links": [
+        {
+          "title": "View Repository",
+          "url": "https://github.com/zaryif/ForensicSteganographySuite.git"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Source Code Released!",
+      "date": "2025-11-20T09:00:00Z",
+      "content": "I've just uploaded the latest source code for this interactive portfolio to GitHub! This update includes a completely redesigned AI integration layer and dynamic timeline features. You can now explore how I built the 'AI Playground' and check out the codebase directly. Feel free to star the repo if you like it!",
+      "attachments": [],
+      "links": [
+        {
+          "title": "GitHub Repository",
+          "url": "https://github.com/zaryif/Interactive-Portfolio-website.git"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Portfolio Launch & Open Source Release",
+      "date": "2025-11-01T12:00:00Z",
+      "content": "Excited to launch my new interactive portfolio! This project was a deep dive into modern front-end tech and AI integration. It's now open-source on GitHub for anyone to fork and customize. Check out the documentation to build your own!",
+      "attachments": [],
+      "links": []
+    },
+    {
+      "id": 1,
+      "title": "AI's Role in Modern Cybersecurity",
+      "date": "2024-07-18T10:00:00Z",
+      "content": "Exploring the intersection of Artificial Intelligence and Cybersecurity. From advanced threat detection to automated response systems, AI is reshaping how we protect digital assets. It's a field brimming with challenges and opportunities.",
+      "attachments": [],
+      "links": []
+    },
+    {
+      "id": 2,
+      "title": "Creativity in a Developer's Portfolio",
+      "date": "2024-07-16T11:00:00Z",
+      "content": "A portfolio should be more than a list of projects; it should be a reflection of one's creativity and problem-solving skills. This interactive site is my attempt to demonstrate concepts in a hands-on, engaging way.",
+      "attachments": [],
+      "links": []
+    }
+  ]
+}

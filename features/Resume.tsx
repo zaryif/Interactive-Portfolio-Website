@@ -16,21 +16,30 @@ interface ResumeProps {
 }
 
 const Resume: React.FC<ResumeProps> = ({ resumeData }) => {
-  // Logic to construct a direct download link from a Google Drive preview/embed URL.
-  // Google Drive links for viewing are different from direct download links.
+  // Logic to construct direct view and download links from various Google Drive URL formats.
+  // This ensures that whether the user provides a "view" link or a "download" link in the JSON,
+  // the UI buttons will function correctly.
+  let viewUrl = resumeData.resumePdfUrl;
   let downloadUrl = resumeData.resumePdfUrl;
+
   try {
-    const urlParts = resumeData.resumePdfUrl.split('/d/');
-    if (urlParts.length > 1) {
-        const fileId = urlParts[1].split('/')[0];
-        // This is the standard format for a direct Google Drive download link.
+    // Regex to find the File ID in standard view URLs (e.g., .../file/d/FILE_ID/...)
+    const matchView = resumeData.resumePdfUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    // Regex to find the File ID in download parameters (e.g., ...?id=FILE_ID)
+    const matchId = resumeData.resumePdfUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    
+    // Extract the ID from either match.
+    const fileId = matchView?.[1] || matchId?.[1];
+
+    if (fileId) {
+        // Construct the specific URLs using the extracted ID.
+        viewUrl = `https://drive.google.com/file/d/${fileId}/preview`;
         downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
     }
   } catch(e) {
-    // If parsing fails, fall back to the original URL.
-    console.error("Could not construct download URL, falling back to original URL.", e);
+    // If parsing fails, fall back to the original URL for both.
+    console.error("Could not construct customized Drive URLs, falling back to original.", e);
   }
-
 
   return (
       <div className="space-y-12 animate-fade-in">
@@ -42,7 +51,7 @@ const Resume: React.FC<ResumeProps> = ({ resumeData }) => {
               {/* Action buttons for viewing and downloading the PDF. */}
               <div className="flex items-center gap-4 mt-4 sm:mt-0">
                   <a 
-                    href={resumeData.resumePdfUrl} // The preview/embed link.
+                    href={viewUrl} 
                     target="_blank" // Opens in a new tab.
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-sm bg-gray-500/10 hover:bg-gray-500/20 px-4 py-2 rounded-md transition-colors"
@@ -50,7 +59,7 @@ const Resume: React.FC<ResumeProps> = ({ resumeData }) => {
                       <Eye size={16} /> View PDF
                   </a>
                   <a 
-                    href={downloadUrl} // The constructed direct download link.
+                    href={downloadUrl} 
                     download="MD_ZARIF_AZFAR_Resume.pdf" // Specifies the default filename for the downloaded file.
                     target="_blank" 
                     rel="noopener noreferrer" 

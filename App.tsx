@@ -36,6 +36,8 @@ const App: React.FC = () => {
   const [activeApp, setActiveApp] = useState<string | null>(null);
   // State to manage the visibility of the floating AI assistant chat modal.
   const [isChatOpen, setIsChatOpen] = useState(false);
+  // State to manage the visibility of the project documentation modal.
+  const [isDocOpen, setIsDocOpen] = useState(false);
   // State for the current theme ('light' or 'dark'). Defaults to 'dark'.
   const [theme, setTheme] = useState<Theme>('dark');
   // State to hold the portfolio data fetched from the JSON file.
@@ -98,7 +100,7 @@ const App: React.FC = () => {
   };
 
   // Define the order and names of the main navigation tabs.
-  const TABS: Tab[] = ['Resume', 'Projects', 'Timeline', 'AI Playground', 'Documentation', 'Contact'];
+  const TABS: Tab[] = ['Resume', 'Projects', 'Timeline', 'AI Playground', 'Contact'];
 
   // Renders the content for the currently active main tab.
   const renderTabContent = () => {
@@ -112,11 +114,9 @@ const App: React.FC = () => {
       case 'Timeline':
         return <Suspense fallback={fallback}><Timeline resumeData={resumeData} /></Suspense>;
       case 'Projects':
-        return <Suspense fallback={fallback}><Projects resumeData={resumeData} /></Suspense>;
+        return <Suspense fallback={fallback}><Projects resumeData={resumeData} onOpenDoc={() => setIsDocOpen(true)} /></Suspense>;
       case 'AI Playground':
         return <Suspense fallback={fallback}><AIPlayground onAppClick={setActiveApp} /></Suspense>;
-      case 'Documentation':
-        return <Suspense fallback={fallback}><Documentation /></Suspense>;
       case 'Contact':
         return <Suspense fallback={fallback}><Contact resumeData={resumeData} /></Suspense>;
       default:
@@ -182,6 +182,15 @@ const App: React.FC = () => {
           {/* Suspense is used here again for the lazy-loaded modal content. */}
           <Suspense fallback={<div className="flex justify-center items-center h-64"><Spinner /></div>}>
             {renderActiveAppComponent()}
+          </Suspense>
+        </Modal>
+      )}
+
+      {/* Modal for Project Documentation. */}
+      {isDocOpen && (
+        <Modal isOpen={isDocOpen} onClose={() => setIsDocOpen(false)} title="Project Documentation" size="fullscreen">
+          <Suspense fallback={<div className="flex justify-center items-center h-full"><Spinner /></div>}>
+            <Documentation />
           </Suspense>
         </Modal>
       )}

@@ -3,14 +3,15 @@
 
 import React from 'react';
 import type { ResumeData } from '../types';
-import { Github } from 'lucide-react';
+import { Github, FileText } from 'lucide-react';
 
 // Defines the props for the Research component.
 interface ResearchProps {
   resumeData: ResumeData;
+  onOpenDoc: () => void;
 }
 
-export const Research: React.FC<ResearchProps> = ({ resumeData }) => {
+export const Research: React.FC<ResearchProps> = ({ resumeData, onOpenDoc }) => {
   // Find the specific project data for this portfolio from the main data object.
   const portfolioProject = resumeData.projects.find(p => p.id === 1);
 
@@ -47,13 +48,19 @@ export const Research: React.FC<ResearchProps> = ({ resumeData }) => {
                 ))}
               </div>
             </div>
-            {/* GitHub Link */}
-            {portfolioProject.links.github && (
-                <a href={portfolioProject.links.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-[var(--header-text)] hover:underline">
-                    <Github size={16} />
-                    View source on GitHub
-                </a>
-            )}
+            {/* GitHub Link & Documentation Button */}
+            <div className="flex items-center gap-6 mt-4 pt-4 border-t border-amber-500/10">
+                {portfolioProject.links.github && (
+                    <a href={portfolioProject.links.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-[var(--subtle-text)] hover:text-[var(--header-text)] transition-colors">
+                        <Github size={16} />
+                        View source on GitHub
+                    </a>
+                )}
+                 <button onClick={onOpenDoc} className="inline-flex items-center gap-2 text-sm text-[var(--subtle-text)] hover:text-[var(--header-text)] transition-colors">
+                    <FileText size={16} />
+                    Project Documentation
+                </button>
+            </div>
           </div>
         </div>
       </div>
